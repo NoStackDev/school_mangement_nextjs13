@@ -1,0 +1,1 @@
+# school_mangement_nextjs13
