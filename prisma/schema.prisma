@@ -12,25 +12,29 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String
-  firstname   String   @db.VarChar(255)
-  surname     String   @db.VarChar(255)
-  othernames  String?  @db.VarChar(255)
-  phoneNumber String
-  image       String?
-  role        Role     @default(STUDENT)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Student     Student?
+  id              Int      @id @default(autoincrement())
+  schoolId        String   @unique
+  email           String
+  password        String
+  firstname       String   @db.VarChar(255)
+  surname         String   @db.VarChar(255)
+  othernames      String?  @db.VarChar(255)
+  phoneNumber     String
+  image           String?
+  role            Role     @default(STUDENT)
+  firstTimeSignin Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  Student         Student?
 }
 
 model Student {
-  id      Int   @id @default(autoincrement())
-  user    User  @relation(fields: [userId], references: [id])
-  userId  Int   @unique
-  class   Class @relation(fields: [classId], references: [id])
-  classId Int   @unique
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int    @unique
+  class   Class  @relation(fields: [classId], references: [id])
+  classId Int    @unique
+  address String
 }
 
 model Class {
@@ -46,12 +50,12 @@ model Session {
 }
 
 model Term {
-  id    Int    @id @default(autoincrement())
-  title String @db.VarChar(255)
-  start DateTime
-  end DateTime
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  start     DateTime
+  end       DateTime
   Session   Session? @relation(fields: [sessionId], references: [id])
-  sessionId Int @unique
+  sessionId Int      @unique
 }
 
 enum Role {
